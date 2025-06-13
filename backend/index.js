@@ -35,10 +35,11 @@ app.get("/", (req, res) => {
   res.json({ message: "Hello from server backend!" });
 });
 
-// MongoDB Connection (MongoDB Compass)
-mongoose.connect(process.env.MONGOURL)
-  .then(() => console.log("✅ Connected to MongoDB (Compass)"))
-  .catch((err) => console.error("❌ MongoDB connection error:", err));
+// MongoDB Connection
+mongoose.connect(process.env.MONGOURL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
 
 // Start server
 app.listen(PORT, () => {
