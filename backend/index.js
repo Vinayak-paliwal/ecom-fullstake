@@ -17,15 +17,26 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
+//  Allowed frontend URLs
+const allowedOrigins = [
+  "https://ecom-fullstake-3ysn.vercel.app",
+  "https://ecom-fullstake-grqcxa4bb-vinayak-paliwals-projects.vercel.app",
+  "http://localhost:5173",
+];
+
+//  Smart CORS config
 app.use(cors({
-  origin: [
-    "https://ecom-fullstake-3ysn.vercel.app", 
-    "https://ecom-fullstake-grqcxa4bb-vinayak-paliwals-projects.vercel.app", 
-    "http://localhost:5173",
-  ],
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS: " + origin));
+    }
+  },
   credentials: true,
 }));
+
+// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -47,12 +58,12 @@ mongoose.connect(process.env.MONGOURL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 }).then(() => {
-  console.log("Connected to MongoDB");
+  console.log(" Connected to MongoDB");
 }).catch((err) => {
-  console.error("Failed to connect to MongoDB:", err.message);
+  console.error(" MongoDB connection error:", err.message);
 });
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`Server is running at http://localhost:${PORT}`);
+  console.log(` Server running on http://localhost:${PORT}`);
 });
