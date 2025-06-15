@@ -6,7 +6,7 @@ import Address from "./Address";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
-import Button from "../UI/Button";
+import Button from "../ui/Button";
 
 const Cart_main = () => {
   const cart = useSelector((state) => state.cart?.cart || []);

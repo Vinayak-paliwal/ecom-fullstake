@@ -27,7 +27,7 @@ const Header = () => {
 
   useEffect(() => {
     console.log("Updated cart:", cart); //  Debugging: Check Redux cart data
-    setCartCount(cart.length); //  Ensure UI updates with latest cart length
+    setCartCount(cart.length); //  Ensure ui updates with latest cart length
   }, [cart]);
 
   useEffect(() => {
