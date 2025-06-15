@@ -74,7 +74,7 @@ export const editProduct = async (req, res) => {
       title,
       rating,
       price,
-      quantity  // Allow quantity update
+      quantity 
     });
 
     res.status(200).json({ message: "Product updated successfully" });

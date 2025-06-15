@@ -1,5 +1,5 @@
 import express from 'express';
-import { getAllUsers, getAllSellers, toggleUserBlock } from '../Controllers/adminController.js';
+import { getAllUsers, getAllSellers, toggleUserBlock } from '../controllers/adminController.js';
 import { authenticateToken, isAdmin } from '../middleware/authMiddleware.js';
 
 const router = express.Router();

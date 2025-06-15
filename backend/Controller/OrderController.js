@@ -12,7 +12,7 @@ export const createOrder = async (req, res) => {
 
     console.log("Creating order:", req.body);
 
-    // ✅ 1. Check if all products are in stock
+    //  1. Check if all products are in stock
     for (const item of items) {
       const product = await Product.findById(item.productId);
       if (!product) {
@@ -23,7 +23,7 @@ export const createOrder = async (req, res) => {
       }
     }
 
-    // ✅ 2. Create the order
+    //  2. Create the order
     const newOrder = new Order({
       buyerId,
       items,
@@ -34,11 +34,11 @@ export const createOrder = async (req, res) => {
 
     await newOrder.save();
 
-    // ✅ 3. Decrease product quantity
+    //  3. Decrease product quantity
     for (const item of items) {
       await Product.findByIdAndUpdate(
         item.productId,
-        { $inc: { quantity: -item.quantity } }, // 🛑 Reduce quantity
+        { $inc: { quantity: -item.quantity } }, //  Reduce quantity
         { new: true }
       );
     }
@@ -64,25 +64,25 @@ export const getOrdersByUser = async (req, res) => {
 
 export const getSellerOrders = async (req, res) => {
   try {
-      const sellerId = req.params.sellerId; // 🟢 Seller ID from request params
+      const sellerId = req.params.sellerId; //  Seller ID from request params
 
-      // 🟢 1. Find all products of the seller
+      //  1. Find all products of the seller
       const sellerProducts = await Product.find({ userId: sellerId }).select("_id title quantity");
-      console.log("✅ Seller products:", sellerProducts);
+      console.log(" Seller products:", sellerProducts);
       
       if (!sellerProducts.length) {
           return res.status(404).json({ message: "No products found for this seller" });
       }
 
-      // 🟢 2. Convert product IDs to ObjectId
+      //  2. Convert product IDs to ObjectId
       const sellerProductIds = sellerProducts.map((product) => new mongoose.Types.ObjectId(product._id));
-      console.log("✅ Seller Product IDs:", sellerProductIds);
+      console.log(" Seller Product IDs:", sellerProductIds);
       
-      // 🟢 3. Find orders where at least one product belongs to the seller
+      //  3. Find orders where at least one product belongs to the seller
       const orders = await Order.find({ "items.productId": { $in: sellerProductIds } });
-      console.log("✅ Orders containing seller's products:", orders);
+      console.log(" Orders containing seller's products:", orders);
       
-      // 🟢 4. Filter orders to include only seller's products
+      //  4. Filter orders to include only seller's products
       const sellerOrders = orders.map((order) => {
           const sellerItems = order.items.filter((item) =>
               sellerProductIds.some(id => id.equals(item.productId))
@@ -91,7 +91,7 @@ export const getSellerOrders = async (req, res) => {
           return {
               _id: order._id, // Order ID
               buyerId: order.buyerId, // Buyer ID
-              totalAmount: sellerItems.reduce((sum, item) => sum + (item.price * item.quantity), 0), // 🟢 Only seller's product price
+              totalAmount: sellerItems.reduce((sum, item) => sum + (item.price * item.quantity), 0), //  Only seller's product price
               status: order.status,
               createdAt: order.createdAt,
               address: order.address,
@@ -106,7 +106,7 @@ export const getSellerOrders = async (req, res) => {
 
       res.json(sellerOrders);
   } catch (error) {
-      console.error("❌ Error fetching seller orders:", error);
+      console.error(" Error fetching seller orders:", error);
       res.status(500).json({ message: "Error fetching seller orders" });
   }
 };

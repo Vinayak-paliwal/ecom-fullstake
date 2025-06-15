@@ -6,7 +6,7 @@ import axios from "axios";
 
 const Sproduct = () => {
   const [ourProduct, setOurProduct] = useState({});
-  const [quantity, setQuantity] = useState(1); // ✅ State for quantity
+  const [quantity, setQuantity] = useState(1); //  State for quantity
   const { id } = useParams();
   const dispatch = useDispatch();
 
@@ -30,7 +30,7 @@ const Sproduct = () => {
       return alert("Quantity must be at least 1.");
     }
 
-    dispatch(addToCart({ ...ourProduct, quantity })); // ✅ Include quantity
+    dispatch(addToCart({ ...ourProduct, quantity })); //  Include quantity
   };
 
   return (
@@ -52,7 +52,7 @@ const Sproduct = () => {
             <option>Large</option>
           </select>
 
-          {/* ✅ Quantity Input */}
+          {/*  Quantity Input */}
           <input
             type="number"
             value={quantity}
@@ -61,7 +61,7 @@ const Sproduct = () => {
             className="border p-1 rounded"
           />
 
-          {/* ✅ Updated Add to Cart Button */}
+          {/*  Updated Add to Cart Button */}
           <button className="normal" onClick={handleAddToCart}>
             Add To Cart
           </button>

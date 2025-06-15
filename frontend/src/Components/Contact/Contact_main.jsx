@@ -15,11 +15,11 @@ const Contact_main = () => {
                 </li>
                 <li>
                     <i className="fa-solid fa-envelope"></i>
-                    <p>jangirsumit906@gmail.com</p>
+                    <p>vinayakpaliwal866@gmail.com</p>
                 </li>
                 <li>
                     <i className="fa-solid fa-phone"></i>
-                    <p>https://github.com/Sumit-Jangir</p>
+                    <p>https://github.com/Vinayak-paliwal</p>
                 </li>
                 <li>
                     <i className="fa-solid fa-clock"></i>
@@ -28,10 +28,12 @@ const Contact_main = () => {
             </div>
         </div>
         <div className="map">
-            <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3722.434346387409!2d79.09629137487674!3d21.09524288549252!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bd4bf251fb8755d%3A0x71a961efb713a4d5!2sManewada%20-%20Besa%20Rd%2C%20Manewada%2C%20Nagpur%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1690951816909!5m2!1sen!2sin"
-                width="600" height="450" style={{border: "0"}} allowFullScreen="" loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"></iframe>
+            <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3222.6051569654687!2d75.82255367543573!3d26.805115676711416!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396dc9556c7077bd%3A0x1d856d839c6b8cda!2sDazzler%20Software%20Pvt%20Ltd%20Pratap%20Nagar!5e1!3m2!1sen!2sin!4v1749973195908!5m2!1sen!2sin"
+                 width="600" height="450" style={{border: "0"}} allowfullscreen="" loading="lazy" 
+                 referrerPolicy="no-referrer-when-downgrade"></iframe>
+
+                
         </div>
     </section>
 

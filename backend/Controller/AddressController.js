@@ -15,7 +15,7 @@ export const setAddress = async (req, res) => {
         });
 
         await newAddress.save();
-        res.status(200).json({ message: "Address added successfully" });
+        res.status(201).json({ message: "Address added successfully" });
     } catch (error) {
         res.status(500).json({ message: "Internal server error" });
     }
@@ -34,18 +34,18 @@ export const getAddress = async (req, res) => {
 }
 
 
-// ✅ Delete Address API
+// Delete Address API
 export const deleteAddress = async (req, res) => {
     try {
         const { addressId } = req.params;
 
-        // 🛑 Check if address exists
+        // Check if address exists
         const address = await AddressModel.findById(addressId);
         if (!address) {
             return res.status(404).json({ message: "Address not found!" });
         }
 
-        // ✅ Delete the address
+        // Delete the address
         await AddressModel.findByIdAndDelete(addressId);
         res.status(200).json({ message: "Address deleted successfully!" });
 

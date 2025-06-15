@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../../assets/img/new.jpg";
-// import logo from "../../assets/img/logo.png";
 import { useDispatch, useSelector } from "react-redux";
 import {
   clearToken,
@@ -19,16 +18,16 @@ const Header = () => {
 
   const cart = useSelector((state) => state.cart?.cart || []);
 
-  // ✅ `useState` ki jagah Redux se directly length use kar rahe hain
+  //  `useState` ki jagah Redux se directly length use kar rahe hain
   const [cartCount, setCartCount] = useState(cart.length);
 
   useEffect(() => {
-    dispatch(fetchCartItems()); // ✅ Cart data fetch on mount
+    dispatch(fetchCartItems()); //  Cart data fetch on mount
   }, [dispatch]);
 
   useEffect(() => {
-    console.log("Updated cart:", cart); // ✅ Debugging: Check Redux cart data
-    setCartCount(cart.length); // ✅ Ensure UI updates with latest cart length
+    console.log("Updated cart:", cart); //  Debugging: Check Redux cart data
+    setCartCount(cart.length); //  Ensure UI updates with latest cart length
   }, [cart]);
 
   useEffect(() => {
@@ -175,7 +174,7 @@ const Header = () => {
               } nav-link`}
               to={"/cart/"}
             >
-              {/* ✅ Cart Count (Only show if cart has items) */}
+              {/*  Cart Count (Only show if cart has items) */}
               {cartCount > 0 && (
                 <span className="absolute -top-3 -right-2 bg-blue-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full z-10">
                   {cartCount}

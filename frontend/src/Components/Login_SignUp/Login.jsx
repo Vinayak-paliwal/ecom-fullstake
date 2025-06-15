@@ -17,7 +17,7 @@ function Login() {
     e.preventDefault();
 
     try {
-      const { email, password } = userDetail; // ✅ Fixed here
+      const { email, password } = userDetail; // Fixed here
       const res = await axios.post(
         `${import.meta.env.VITE_API_KEY}/auth/login`,
         { email, password }

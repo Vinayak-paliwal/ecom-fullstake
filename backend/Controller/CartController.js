@@ -1,91 +1,96 @@
-import CartModel from "../Model/CartModel.js";
+import Cart from "../Model/CartModel.js";
+import Product from "../Model/ProductModel.js";
+import mongoose from "mongoose";
 
-export const getCartItems = async (req, res) => {
-  try {
-    const cart = await CartModel.find({ userId: req.user.id }).populate(
-      "productId",
-      "name price image"
-    );
-    res.json(cart);
-  } catch (error) {
-    res.status(500).json({ message: "Error fetching cart items" });
-  }
-};
+// Validate ObjectId helper
+const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
 
+//  Add to Cart
 export const addToCart = async (req, res) => {
   try {
-    let { _id, quantity, price, image, title } = req.body;
+    const { userId, productId, quantity } = req.body;
 
-    console.log("Adding item to cart:", req.body);
-
-    // Ensure `quantity` is a valid number
-    quantity = Number(quantity);
-    if (isNaN(quantity) || quantity <= 0) {
-      return res.status(400).json({ message: "Invalid quantity value" });
+    if (!userId || !productId || !quantity) {
+      return res.status(400).json({ message: "All fields are required" });
     }
 
-    let existingCartItem = await CartModel.findOne({
-      userId: req.user.id,
-      productId: _id,
-    });
-
-    if (existingCartItem) {
-      existingCartItem.quantity += quantity;
-      await existingCartItem.save();
-
-      // ✅ Return updated cart array instead of single object
-      const updatedCart = await CartModel.find({ userId: req.user.id }).populate(
-        "productId",
-        "name price image"
-      );
-      return res.json(updatedCart);
+    if (!isValidObjectId(productId)) {
+      return res.status(400).json({ message: "Invalid product ID" });
     }
 
-    const newCartItem = new CartModel({
-      userId: req.user.id,
-      productId: _id,
-      quantity,
-      price,
-      productImage: image,
-      productName: title,
-    });
-    await newCartItem.save();
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
 
-    // ✅ Return updated cart (always array)
-    const updatedCart = await CartModel.find({ userId: req.user.id }).populate(
-      "productId",
-      "name price image"
-    );
-    res.status(201).json(updatedCart);
+    let cartItem = await Cart.findOne({ userId, productId });
+
+    if (cartItem) {
+      cartItem.quantity += quantity;
+    } else {
+      cartItem = new Cart({ userId, productId, quantity });
+    }
+
+    await cartItem.save();
+
+    res.status(201).json({ message: "Item added to cart", cart: cartItem });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Error adding item to cart" });
+    console.error(" Error adding to cart:", error);
+    res.status(500).json({ message: "Internal server error", error: error.message });
   }
 };
 
+// Get Cart Items by User
+export const getCartItems = async (req, res) => {
+  try {
+    const { userId } = req.params;
 
+    if (!isValidObjectId(userId)) {
+      return res.status(400).json({ message: "Invalid user ID" });
+    }
+
+    const cartItems = await Cart.find({ userId }).populate("productId");
+    res.status(200).json(cartItems);
+  } catch (error) {
+    console.error(" Error fetching cart:", error);
+    res.status(500).json({ message: "Internal server error", error: error.message });
+  }
+};
+
+//  Remove item from cart
 export const removeFromCart = async (req, res) => {
   try {
-    await CartModel.findByIdAndDelete(req.params.id);
+    const { id } = req.params;
 
-    // Return updated cart after removing item
-    const updatedCart = await CartModel.find({ userId: req.user.id }).populate(
-      "productId",
-      "name price image"
-    );
-    res.json(updatedCart);
+    if (!isValidObjectId(id)) {
+      return res.status(400).json({ message: "Invalid cart item ID" });
+    }
+
+    const deleted = await Cart.findByIdAndDelete(id);
+    if (!deleted) {
+      return res.status(404).json({ message: "Cart item not found" });
+    }
+
+    res.status(200).json({ message: "Item removed from cart" });
   } catch (error) {
-    res.status(500).json({ message: "Error removing item from cart" });
+    console.error(" Error removing cart item:", error);
+    res.status(500).json({ message: "Internal server error", error: error.message });
   }
 };
 
+//  Clear entire cart (optional)
 export const clearCart = async (req, res) => {
-    try {
-        const { userId } = req.params;
-        await CartModel.deleteMany({ userId });
-        res.status(200).json({ message: "Cart cleared successfully!" });
-    } catch (error) {
-        console.error("Error clearing cart:", error);
-        res.status(500).json({ message: "Something went wrong!", error: error.message });
+  try {
+    const { userId } = req.params;
+
+    if (!isValidObjectId(userId)) {
+      return res.status(400).json({ message: "Invalid user ID" });
     }
+
+    await Cart.deleteMany({ userId });
+    res.status(200).json({ message: "Cart cleared successfully" });
+  } catch (error) {
+    console.error(" Error clearing cart:", error);
+    res.status(500).json({ message: "Internal server error", error: error.message });
+  }
 };
