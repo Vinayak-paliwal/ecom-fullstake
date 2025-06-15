@@ -4,7 +4,7 @@ import ProductForm from "./ProductForm";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import toast from "react-hot-toast";
-import Button from "../UI/Button";
+import Button from "../ui/Button";
 
 const Product = () => {
   const [isAddProductOpen, setIsAddProductOpen] = useState(false);
