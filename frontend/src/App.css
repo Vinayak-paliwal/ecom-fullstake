@@ -178,7 +178,7 @@ button.white {
 }
 
 #hero button {
-  background-image: url("img/button.png");
+  background-image: url("/frontend/src/assets/img/button1.png");
   background-color: transparent;
   color: #088178;
   border: 0;
