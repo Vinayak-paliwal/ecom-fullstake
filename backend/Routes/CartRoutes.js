@@ -6,7 +6,7 @@ import {
   clearCart,
 } from "../Controller/CartController.js";
 
-import VerifyToken from "../Middleware/VerifyToken.js";
+import VerifyToken from "../middleware/VerifyToken.js";
 
 const router = express.Router();
 
