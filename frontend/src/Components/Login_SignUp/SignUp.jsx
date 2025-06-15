@@ -24,8 +24,10 @@ function SignUp() {
     }
 
     try {
-      const res = await axios.post(`/auth/signup`, userDetail);
-
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_KEY}/auth/signup`, // ✅ Correct backend URL
+        userDetail
+      );
 
       if (res.status === 200) {
         toast.success("Signup Successful! Please login");
@@ -56,7 +58,9 @@ function SignUp() {
               placeholder="Enter name"
               required
               value={userDetail.name}
-              onChange={(e) => setUserDetail({ ...userDetail, name: e.target.value })}
+              onChange={(e) =>
+                setUserDetail({ ...userDetail, name: e.target.value })
+              }
             />
           </label>
           <label>
@@ -66,7 +70,9 @@ function SignUp() {
               placeholder="Enter email"
               required
               value={userDetail.email}
-              onChange={(e) => setUserDetail({ ...userDetail, email: e.target.value })}
+              onChange={(e) =>
+                setUserDetail({ ...userDetail, email: e.target.value })
+              }
             />
           </label>
           <label>
@@ -76,7 +82,9 @@ function SignUp() {
               placeholder="Enter password"
               required
               value={userDetail.password}
-              onChange={(e) => setUserDetail({ ...userDetail, password: e.target.value })}
+              onChange={(e) =>
+                setUserDetail({ ...userDetail, password: e.target.value })
+              }
             />
           </label>
           <label>
@@ -86,14 +94,21 @@ function SignUp() {
               placeholder="Confirm password"
               required
               value={userDetail.conformPassword}
-              onChange={(e) => setUserDetail({ ...userDetail, conformPassword: e.target.value })}
+              onChange={(e) =>
+                setUserDetail({
+                  ...userDetail,
+                  conformPassword: e.target.value,
+                })
+              }
             />
           </label>
           <label>
             Select Role:
             <select
               value={userDetail.role}
-              onChange={(e) => setUserDetail({ ...userDetail, role: e.target.value })}
+              onChange={(e) =>
+                setUserDetail({ ...userDetail, role: e.target.value })
+              }
             >
               <option value="buyer">Buyer</option>
               <option value="seller">Seller</option>
