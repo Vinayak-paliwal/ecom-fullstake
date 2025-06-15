@@ -18,11 +18,14 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
-const corsOptions = {
-  origin: "https://ecom-fullstake-3ysn.vercel.app",
-  credentials: true, 
-};
-app.use(cors(corsOptions));
+app.use(cors({
+  origin: [
+    "https://ecom-fullstake-3ysn.vercel.app", 
+    "https://ecom-fullstake-grqcxa4bb-vinayak-paliwals-projects.vercel.app", 
+    "http://localhost:5173",
+  ],
+  credentials: true,
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
