@@ -82,7 +82,7 @@ const cartSlice = createSlice({
             .addCase(fetchCartItems.rejected, (state, action) => {
                 state.status = "failed";
                 state.error = action.payload;
-                toast.error("Failed to load cart");
+                // toast.error("Failed to load cart");
             })
             .addCase(addToCart.fulfilled, (state, action) => {
                 state.cart = action.payload;

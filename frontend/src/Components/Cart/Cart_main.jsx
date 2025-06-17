@@ -44,7 +44,7 @@ const Cart_main = () => {
       setOrders(response.data);
     } catch (error) {
       console.log("error", error);
-      toast.error("Failed to fetch orders");
+      // toast.error("Failed to fetch orders");
     } finally {
       setLoadingOrders(false);
     }
